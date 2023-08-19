@@ -283,8 +283,8 @@ public class ReplyRestController {
 }
 ```
 
-
 ## BoardVO (게시판 VO)
+
 ```JAVA
 public class BoardVO {
 	private int board_num;
@@ -299,7 +299,7 @@ public class BoardVO {
 
 }
 ```
-
+## ReplyVO (게시판 VO)
 ```JAVA
 public class ReplyVO {
 	private int reply_num;
@@ -312,3 +312,88 @@ public class ReplyVO {
 }
 ```
 
+## Mapper (게시판 마이바티스 Mapper)
+
+```JAVA
+package kr.spring.board.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import kr.spring.board.vo.BoardVO;
+
+@Mapper
+public interface BoardMapper {
+	
+	@Insert("INSERT INTO MAILPLUG_BOARD (user_ip, user_nickname, board_passwd, board_title, board_info) VALUES (#{user_ip}, #{user_nickname}, #{board_passwd}, #{board_title}, #{board_info})")
+	public void submitBoard(BoardVO boardVO);
+	
+	@Select("SELECT * FROM (SELECT a.*,rownum rnum FROM (SELECT * FROM MAILPLUG_BOARD ORDER BY board_num DESC)a) WHERE rnum>=#{startRow} AND rnum<= #{endRow}")
+	public List<BoardVO> viewAllBoard(Map<String,Object> mapJson);
+	
+	@Select("SELECT COUNT(*) board_count FROM MAILPLUG_BOARD")
+	public int boardListCount();
+	
+	@Select("SELECT * FROM MAILPLUG_BOARD WHERE board_num = #{board_num}")
+	public List<BoardVO> viewBoardByBoardNum(Map<String, Object> mapJson);
+	
+	@Select("SELECT board_hit FROM MAILPLUG_BOARD WHERE board_num = #{board_num}")
+	public int currentHit(int board_num);
+	
+	@Update("UPDATE MAILPLUG_BOARD SET board_hit = #{board_hit} WHERE board_num =#{board_num}")
+	public void updateHit(int board_hit, int board_num);
+	
+	@Update("UPDATE MAILPLUG_BOARD SET user_ip = #{user_ip}, user_nickname = #{user_nickname}, board_title = #{board_title}, "
+			+ "board_info = #{board_info}, board_passwd = #{board_passwd} WHERE board_num = #{board_num}")
+	public void fixBoard(BoardVO boardVO);
+	
+	@Delete("DELETE FROM MAILPLUG_BOARD WHERE board_num = #{board_num}")
+	public void deleteBoard(int board_num);
+	
+}
+```
+
+## Mapper (댓글 마이바티스 Mapper)
+
+```JAVA
+package kr.spring.reply.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import kr.spring.reply.vo.ReplyVO;
+
+@Mapper
+public interface ReplyMapper {
+	@Insert("INSERT INTO MAILPLUG_REPLY (user_ip, board_num, reply_nickname, reply_info) VALUES (#{user_ip}, #{board_num}, #{reply_nickname}, #{reply_info})")
+	public void submitReply(ReplyVO replyVO);
+
+	@Select("SELECT * FROM MAILPLUG_REPLY WHERE board_num = #{board_num}")
+	public List<ReplyVO> selectListReply(Map<String, Object> mapJson);
+
+	// board 제거 시 댓글들도 delete
+	@Delete("DELETE FROM MAILPLUG_REPLY WHERE board_num = #{board_num}")
+	public void deleteReplyByBoardNum(int board_num);
+
+	// 댓글만 제거
+	@Delete("DELETE FROM MAILPLUG_REPLY WHERE reply_num = #{reply_num}")
+	public void deleteReply(int reply_num);
+
+	@Update("UPDATE MAILPLUG_REPLY SET user_ip = #{user_ip}, reply_nickname = #{reply_nickname}, "
+			+ "reply_info = #{reply_info} WHERE reply_num = #{reply_num}")
+	public void fixReply(ReplyVO replyVO);
+
+}
+```
