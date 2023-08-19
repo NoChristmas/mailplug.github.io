@@ -67,6 +67,7 @@ public class BoardController {
 ```
 application.yml의 mvc 관련 view 경로 설정에 의해 return 값을 받을 때 경로를 /WEB-INF/views/리턴받은String값.jsp 의 경로를 내부에서 찾음
 
+
 application.yml 파일 내용 >>
 spring: 
   mvc:
@@ -74,9 +75,16 @@ spring:
       prefix: /WEB-INF/views/
       suffix: .jsp 
 
-@Controller 어노테이션은 : MVC 중 Controller에 해당하며 User가 요청한 값들을 받아 jsp 경로를 뿌려준다.
+
+@Controller 어노테이션은 : MVC 중 Controller에 해당하며 User가 요청한 값들을 받아 jsp 경로를 뿌려준다. 
+
+
 @AutoWired 어노테이션 : 의존성 주입으로 BoardService에 줌으로서 Service의 객체를 가져옴.
+
+
 @ModelAttribute 어노테이션 : HTTP에사 넘어온 Query들을 자동으로 Binding 해준다. 또 List 형태로 jsp에 전달될 때도 같은 이름으로 전달됨.
+
+
 AutoWired와 ModelAttribute 어노테이션은 위 설명한 Controller에서는 필요없는 객체로 판단됨.
 
 
