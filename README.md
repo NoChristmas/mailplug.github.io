@@ -282,3 +282,33 @@ public class ReplyRestController {
 	
 }
 ```
+
+
+## BoardVO (게시판 VO)
+```JAVA
+public class BoardVO {
+	private int board_num;
+	private String user_ip;
+	private String user_nickname;
+	private String board_passwd;
+	private String board_title;
+	private String board_info;
+	private int board_hit;
+	private Date board_reg_date;
+	//toString, Get, Set, import 생략
+
+}
+```
+
+```JAVA
+public class ReplyVO {
+	private int reply_num;
+	private String user_ip;
+	private int board_num;
+	private String reply_nickname;
+	private String reply_info;
+	private Date reply_reg_date;
+	//toString, Get, Set, import 생략
+}
+```
+
