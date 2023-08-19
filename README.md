@@ -63,7 +63,7 @@ public class BoardController {
 	}
 
 }
-'''
+```
 
 ## BoardRestController (Rest API 형식 Controller)
 ```JAVA
@@ -194,4 +194,4 @@ public class BoardRestController {
 	}
 
 }
-'''
+```
