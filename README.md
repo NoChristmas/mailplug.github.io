@@ -10,17 +10,6 @@
 
 ## BoardController (웹페이지를 뿌리는 Controller)
 ```JAVA
-package kr.spring.board.controller;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
-import kr.spring.board.service.BoardService;
-import kr.spring.board.vo.BoardVO;
 
 @Controller
 public class BoardController {
@@ -67,7 +56,7 @@ public class BoardController {
 ```
 application.yml의 mvc 관련 view 경로 설정에 의해 return 값을 받을 때 경로를 /WEB-INF/views/리턴받은String값.jsp 의 경로를 내부에서 찾음
 
-<!-- Text attributes -->
+
 application.yml 파일 내용 >>
 spring: 
   mvc:
@@ -85,34 +74,11 @@ spring:
 @ModelAttribute 어노테이션 : HTTP에사 넘어온 Query들을 자동으로 Binding 해준다. 또 List 형태로 jsp에 전달될 때도 같은 이름으로 전달됨.
 
 
-AutoWired와 ModelAttribute 어노테이션은 위 설명한 Controller에서는 필요없는 객체로 판단됨.
+@AutoWired와 @ModelAttribute 어노테이션은 위 설명한 Controller에서는 필요없는 객체로 판단됨.
 
 
 ## BoardRestController (게시판 관련 Rest API 형식 Controller)
 ```JAVA
-
-package kr.spring.board.controller;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import kr.spring.board.service.BoardService;
-import kr.spring.board.vo.BoardVO;
-
 @RestController
 public class BoardRestController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardRestController.class);
@@ -177,19 +143,20 @@ public class BoardRestController {
 		return mapJson;
 	}
 
+	// 글 수정
 	@PutMapping("/board/fix")
 	public Map<String, String> fixBoard(@RequestBody BoardVO boardVO, HttpSession session, HttpServletRequest request) {
 		Map<String, String> mapJson = new HashMap<String, String>();
-		// boardnum을 받아와야 한다.
+		
 		boardVO.setUser_ip(request.getRemoteAddr());
 
 		logger.debug("<<BoardVO (board_fix)>> : " + boardVO);
-
 		boardService.fixBoard(boardVO); // 수정 Mapper
 		mapJson.put("result", "success");
 		return mapJson;
 	}
 
+	// 조회수 증가
 	@PutMapping("/board/updateHit/{board_num}")
 	public Map<String, String> updateHit(@PathVariable int board_num) {
 		Map<String, String> mapJson = new HashMap<>();
@@ -206,10 +173,7 @@ public class BoardRestController {
 		if (logger.isDebugEnabled()) {
 			logger.debug("<<board_num>> : " + board_num);
 		}
-
 		Map<String, String> mapJson = new HashMap<String, String>();
-
-		// 로그인 되어 있고 로그인한 아이디와 작성자 아이디 일치
 		boardService.deleteBoard(board_num);
 		mapJson.put("result", "success");
 
@@ -218,40 +182,25 @@ public class BoardRestController {
 
 }
 ```
-@RestController 어노테이션은 @ResponseBody 로 JSON 형태로 반환하기 위한 어노테이션이다.
-@
-@GET 조회할 때 주로 사용함 (DB의 SELECT 문과 같이 많이 사용된다)
-@POST 데이터를 새로 생성할 때 주로 사용함 (DB의 INSERT INTO 와 많이 사용됨)
-@PUT 데이터를 수정할 때 주로 사용함 (DB의 UPDATE ~~ SET 와 많이 사용함)
-@DELETE 데이터를 삭제할 때 주로 사용함 (DB의 DELETE 와 많이 사용함)
+1. HTML 의 javaScript 에서 ajax로 Data값을 get, post, put, delete의 type으로 JSON 형태로 넘겨준다. 
+
+
+2. @RestController의 각 @GET, @POST, @PUT, @DELETE의 어노테이션으로 물리고 해당 메서드에 들어오게 된다.
+
+
+3. 각 url을 타고 들어온 뒤 /{board_num}을 javaScript로 부터 받게 되고, @PathVariable로 값을 식별한다. ("board_num")으로 감싸야 하지만 변수명이 같으므로 생략 가능
+
+
+4. 값을 넘겨 받았으니 Service > ServiceImpl > DAO (Mapper)의 값을 가져온다음 int, List<boardVO> 형태로 담아서 오게 된다.
+
+
+5. 각 받은 값들은 JSON 형태로 받고, success를 반환시 이를 HTML에 태그 추가 및 값들을 반복문을 써가며 리스트, 값들을 반환한다.
+
+
+
 
 ## ReplyRestController (댓글 관련 Rest API 형식 Controller)
 ```JAVA
-package kr.spring.reply.controller;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import kr.spring.board.controller.BoardRestController;
-import kr.spring.board.service.BoardService;
-import kr.spring.reply.service.ReplyService;
-import kr.spring.reply.vo.ReplyVO;
-
 @RestController
 public class ReplyRestController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardRestController.class);
@@ -311,9 +260,11 @@ public class ReplyRestController {
 	
 }
 ```
+위 설명과 동일한 방법으로 작동함
+
+
 
 ## BoardVO (게시판 VO)
-
 ```JAVA
 public class BoardVO {
 	private int board_num;
@@ -340,23 +291,9 @@ public class ReplyVO {
 	//toString, Get, Set, import 생략
 }
 ```
-
+각 VO들의 변수는 key값이 되고, @Mapper로 들어가 JSON 형태인 { "key":"value" } 형태로 가져온다.
 ## Mapper (게시판 마이바티스 Mapper)
-
 ```JAVA
-package kr.spring.board.dao;
-
-import java.util.List;
-import java.util.Map;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
-import kr.spring.board.vo.BoardVO;
-
 @Mapper
 public interface BoardMapper {
 	
@@ -387,23 +324,13 @@ public interface BoardMapper {
 	
 }
 ```
+startRow와 endRow를 받는 것은 게시판의 페이징 처리를 위한 것이며 이는 연산이 필요하다. 
+
+
+rnum은 DB에서 가상의 번호를 만들고, 이를 이용해 총 몇개씩 출력한 것인지 결정 하게 된다.
 
 ## Mapper (댓글 마이바티스 Mapper)
-
 ```JAVA
-package kr.spring.reply.dao;
-
-import java.util.List;
-import java.util.Map;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
-import kr.spring.reply.vo.ReplyVO;
-
 @Mapper
 public interface ReplyMapper {
 	@Insert("INSERT INTO MAILPLUG_REPLY (user_ip, board_num, reply_nickname, reply_info) VALUES (#{user_ip}, #{board_num}, #{reply_nickname}, #{reply_info})")
@@ -426,6 +353,8 @@ public interface ReplyMapper {
 
 }
 ```
+댓글의 경우는 게시글의 FK인 board_num를 받는 자식 테이블이므로, 댓글은 없어질 수 있으나 게시판 글이 지워지면 댓글을 지운 후에 게시판을 지워야 알맞다.
+
 
 ## main 페이지
 ```HTML
@@ -642,6 +571,9 @@ $(function(){
 </body>
 </html>
 ```
+상황에 맞게 jQuery문을 활용한 javascript를 써가며 $.ajax를 통해 서버와 통신하며 값들을 주고 받고 있다.
+
+
 ## 세부 페이지
 
 ```HTML
