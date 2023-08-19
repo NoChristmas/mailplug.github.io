@@ -211,14 +211,9 @@ public class ReplyRestController {
 	@GetMapping("/board/replyList/{board_num}")
 	public Map<String, Object> getList(@PathVariable("board_num") int board_num) {
 		logger.debug("<<board_num>> : " + board_num);
-		
-
 		Map<String, Object> mapJson = new HashMap<String, Object>();
 		mapJson.put("board_num", board_num);
-
-		
 		List<ReplyVO> list = null;
-		
 		list = replyService.selectListReply(mapJson);
 		mapJson.put("result", "success");
 		mapJson.put("list", list);
@@ -260,7 +255,7 @@ public class ReplyRestController {
 	
 }
 ```
-위 설명과 동일한 방법으로 작동함
+위 설명과 동일한 방법으로 작동한다.
 
 
 
@@ -574,8 +569,23 @@ $(function(){
 상황에 맞게 jQuery문을 활용한 javascript를 써가며 $.ajax를 통해 서버와 통신하며 값들을 주고 받고 있다.
 
 
-## 세부 페이지
+위 startRow, endRow 값을 연산하는 작업이 있는데 이는 4가지의 값을 필요로 한다.
 
+totalCount (get을 통해서 값을 가져옴),
+
+
+pageSize 한번에 보여줄 레코드 수,
+
+
+pageBlock 한본에 보여줄 페이징 처리를 위한 번호,
+
+
+currentPage (default 1페이지)
+
+
+각 Paging을 누를 때 마다, startRow, endRow가 바뀌게 되며 이를 List로 받아와 화면에 뿌리게 된다.
+
+## 세부 페이지
 ```HTML
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
