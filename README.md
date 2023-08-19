@@ -587,13 +587,7 @@ currentPage (default 1페이지)
 
 ## 세부 페이지
 ```HTML
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>상세 페이지</title>
+타이틀 위 생략...
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 jQuery.fn.serializeObject = function() {
@@ -791,212 +785,6 @@ $(function(){
 
 });
 </script>
-<style>
-	.main-box {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-    }
-
-    .detail-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-        font-size: 14px;
-    }
-
-    .detail-header-item {
-        flex: 1;
-    }
-
-    .detail-title {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    .detail-content {
-        font-size: 16px;
-        margin-bottom: 20px;
-        white-space: pre-line;
-    }
-
-    .detail-options {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 14px;
-        color: #666;
-    }
-
-    .option-divider {
-        margin: 0 10px;
-    }
-
-    .reply {
-        margin-top: 20px;
-        padding: 10px;
-        background-color: #ffffff;
-        border-radius: 5px;
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .reply-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 12px;
-        color: #666;
-        margin-bottom: 5px;
-    }
-
-    .reply-header-item {
-        flex: 1;
-    }
-
-    .reply-content {
-        font-size: 14px;
-        margin-bottom: 10px;
-    }
-
-    .reply-options {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-    }
-
-    .reply-action, .delete-reply {
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 2px 5px;
-        cursor: pointer;
-    }
-
-    .virtual-form {
-        margin-top: 10px;
-    }
-
-    .reply-form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        background-color: #f5f5f5;
-    }
-
-    .reply-form label {
-        font-size: 12px;
-        margin-top: 5px;
-    }
-
-    .reply-form input, .reply-form textarea {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-top: 5px;
-    }
-
-    .reply-form button {
-        margin-top: 10px;
-        padding: 6px 12px;
-        border: none;
-        border-radius: 5px;
-        background-color: #007bff;
-        color: #ffffff;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .reply-form button:hover {
-        background-color: #0056b3;
-    }
-
-    #deleteBoard {
-        display: inline-block;
-        margin-top: 10px;
-        padding: 6px 12px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        background-color: #f5f5f5;
-        font-size: 14px;
-        cursor: pointer;
-    }
-
-    #deleteBoard:hover {
-        background-color: #ddd;
-    }
-    
-    #form-submit {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-    }
-
-    #form-submit label {
-        font-weight: bold;
-        margin-right: 20px;
-        margin-left:20px;
-    }
-
-    #form-submit input {
-    	width:150px;
-    	height:50px;
-    	border-radius:10px;
-    	
-    }
-    #form-submit textarea {
-        width: 500px;
-        height:40px;
-        min-height:40px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        
-    }
-
-    #form-submit button {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 10px;
-        background-color: #007bff;
-        color: #ffffff;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        margin-left:50px;
-    }
-
-    #form-submit button:hover {
-        background-color: #0056b3;
-    }
-    
-    a, span {
-    	background-color: #007bff;
-    	transition: background-color 0.3s;
-    	text-decoration: none;
-        color: inherit;
-    	display: inline-block;
-    	margin-top: 10px;
-   		padding: 6px 12px;
-    	border: 1px solid #ddd;
-    	border-radius: 5px;
-    	background-color: #f5f5f5;
-    	font-size: 14px;
-    	cursor: pointer;
-    }
-    
-    a:hover, span:hover {
-    	background-color: #ddd;
-    }
-</style>
 </head>
 <body>
 	<div class="main-box">
@@ -1021,16 +809,53 @@ $(function(){
 </body>
 </html>
 ```
+보통 get이나 delete 방식은 바꾸는 값이 없기 때문에 큰 처리가 필요 없는데, put과 post의 경우는 각종 다양한 문자들이 들어오기 때문에, jQuery.fn.serializeObject 처리를 꼭 해줘야 한다.
+
+
+해주지 않을 시 415 Error가 발생할 수 있다.
+
+
+put이나 post의 경우 각 DB에 값들이 직접 이동하고 Write 된 다음 나오는 프로세스를 가지고 있다. 따라서 사전 처리 해야할 작업들이 좀 있다.
+
+```HTML
+<script>
+jQuery.fn.serializeObject = function() {
+    let obj = null;
+    try {
+        if (this[0].tagName && this[0].tagName.toUpperCase() == "FORM") {
+            let arr = this.serializeArray();
+            if (arr) {
+                obj = {};
+                jQuery.each(arr, function() {
+                    obj[this.name] = this.value;
+                });
+            }//if ( arr ) {
+        }
+    } catch (e) {
+        alert(e.message);
+    } finally {
+    }
+ 
+    return obj;
+};
+
+$('#form-submit').submit(function(event){
+		event.preventDefault();
+		let data = $(this).serializeObject();
+		console.log(data);
+		$.ajax({
+            type: "post",
+            url: "${pageContext.request.contextPath}/board/writeReply",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8", // 요청의 Content-Type 설정
+            dataType: "json", // 응답의 데이터 타입
+<script>
+```
+이 부분을 보면 설명ㅎㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ
 
 ## 작성 페이지
 ```HTML
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>mailplug | 글쓰기</title>
+title 위 생략...
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 jQuery.fn.serializeObject = function() {
@@ -1085,60 +910,7 @@ $(function(){
 	
 });
 </script>
-
-<style type="text/css">
-	.main-box {
-		width: 100%;
-		max-width: 800px;
-		margin: 0 auto;
-		padding: 20px;
-		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-		border-radius: 10px;
-		background-color: #f8f9fa;
-	}
-
-	#form-submit {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	label {
-		margin-top: 20px;
-		font-weight: bold;
-	}
-
-	input, textarea {
-		width: 100%;
-		padding: 10px;
-		border: 1px solid #ced4da;
-		border-radius: 5px;
-		margin-top: 5px;
-		font-size: 16px;
-		background-color: #ffffff;
-	}
-
-	textarea {
-		height: 150px;
-		resize: vertical;
-	}
-
-	button {
-		margin-top: 20px;
-		padding: 10px 20px;
-		border: none;
-		border-radius: 5px;
-		background-color: #007bff;
-		color: #ffffff;
-		font-size: 16px;
-		cursor: pointer;
-		transition: background-color 0.3s;
-	}
-
-	button:hover {
-		background-color: #0056b3;
-	}
-</style>
+스타일 생략
 </head>
 <body>
 	<div class="main-box">
@@ -1161,6 +933,8 @@ $(function(){
 </body>
 </html>
 ```
+위와 동일한 방식으로 진행 되게 된다.
+
 ## 수정 페이지
 ```HTML
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -1223,59 +997,7 @@ $(function(){
 	
 });
 </script>
-<style type="text/css">
-	.main-box {
-		width: 100%;
-		max-width: 800px;
-		margin: 0 auto;
-		padding: 20px;
-		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-		border-radius: 10px;
-		background-color: #f8f9fa;
-	}
-
-	#form-submit {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	label {
-		margin-top: 20px;
-		font-weight: bold;
-	}
-
-	input, textarea {
-		width: 100%;
-		padding: 10px;
-		border: 1px solid #ced4da;
-		border-radius: 5px;
-		margin-top: 5px;
-		font-size: 16px;
-		background-color: #ffffff;
-	}
-
-	textarea {
-		height: 150px;
-		resize: vertical;
-	}
-
-	button {
-		margin-top: 20px;
-		padding: 10px 20px;
-		border: none;
-		border-radius: 5px;
-		background-color: #007bff;
-		color: #ffffff;
-		font-size: 16px;
-		cursor: pointer;
-		transition: background-color 0.3s;
-	}
-
-	button:hover {
-		background-color: #0056b3;
-	}
-</style>
+스타일 생략
 </head>
 <body>
 	<div class="main-box">
@@ -1301,4 +1023,4 @@ $(function(){
 </body>
 </html>
 ```
-
+위와 같은 방식으로 Spring Boot를 작성 합니다.
