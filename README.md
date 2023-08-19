@@ -67,7 +67,7 @@ public class BoardController {
 ```
 application.yml의 mvc 관련 view 경로 설정에 의해 return 값을 받을 때 경로를 /WEB-INF/views/리턴받은String값.jsp 의 경로를 내부에서 찾음
 
-
+<!-- Text attributes -->
 application.yml 파일 내용 >>
 spring: 
   mvc:
