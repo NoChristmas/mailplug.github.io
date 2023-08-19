@@ -28,11 +28,12 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 
+	/*
 	@ModelAttribute
 	public BoardVO initCommand() {
 		return new BoardVO();
 	}
-
+	*/
 	@RequestMapping("/")
 	public String getFirstPage() {
 		return "redirect:/board/main";
@@ -64,6 +65,20 @@ public class BoardController {
 
 }
 ```
+application.yml의 mvc 관련 view 경로 설정에 의해 return 값을 받을 때 경로를 /WEB-INF/views/리턴받은String값.jsp 의 경로를 내부에서 찾음
+application.yml 파일 
+=======================
+spring: 
+  mvc:
+    view: #view 경로 및 확장자 지정
+      prefix: /WEB-INF/views/
+      suffix: .jsp 
+=======================
+@Controller 어노테이션은 : MVC 중 Controller에 해당하며 User가 요청한 값들을 받아 jsp 경로를 뿌려준다.
+@AutoWired 어노테이션 : 의존성 주입으로 BoardService에 줌으로서 Service의 객체를 가져옴.
+@ModelAttribute 어노테이션 : HTTP에사 넘어온 Query들을 자동으로 Binding 해준다. 또 List 형태로 jsp에 전달될 때도 같은 이름으로 전달됨.
+AutoWired와 ModelAttribute 어노테이션은 위 설명한 Controller에서는 필요없는 객체로 판단됨.
+
 
 ## BoardRestController (게시판 관련 Rest API 형식 Controller)
 ```JAVA
@@ -195,6 +210,12 @@ public class BoardRestController {
 
 }
 ```
+@RestController 어노테이션은 @ResponseBody 로 JSON 형태로 반환하기 위한 어노테이션이다.
+@
+@GET 조회할 때 주로 사용함 (DB의 SELECT 문과 같이 많이 사용된다)
+@POST 데이터를 새로 생성할 때 주로 사용함 (DB의 INSERT INTO 와 많이 사용됨)
+@PUT 데이터를 수정할 때 주로 사용함 (DB의 UPDATE ~~ SET 와 많이 사용함)
+@DELETE 데이터를 삭제할 때 주로 사용함 (DB의 DELETE 와 많이 사용함)
 
 ## ReplyRestController (댓글 관련 Rest API 형식 Controller)
 ```JAVA
