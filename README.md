@@ -484,77 +484,6 @@ $(function(){
 	
 })
 </script>
-<style>
-		body {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		margin: 0;
-	}
-
-	table {
-		width: 80%;
-		border-collapse: collapse;
-		margin: 20px auto;
-	}
-
-	th, td {
-		
-		border: 1px solid #ccc;
-		padding: 10px;
-		width:150px;
-		min-width:150px;
-		text-align: center;
-	}
-
-	.paging-box {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin-top: 20px;
-	}
-
-	.paging-btn {
-		display: flex;
-		align-items: center;
-		font-size: 20px;
-		list-style: none;
-		padding: 0;
-	}
-
-	.paging-btn li {
-		margin: 0 5px;
-		padding: 5px 10px;
-		border: 1px solid #ccc;
-		border-radius: 5px;
-		cursor: pointer;
-		transition: background-color 0.3s;
-	}
-
-	.paging-btn li:hover {
-		background-color: #f0f0f0;
-	}
-
-	a {
-		background-color: #007bff;
-    	transition: background-color 0.3s;
-    	text-decoration: none;
-        color: inherit;
-    	display: inline-block;
-    	margin-top: 10px;
-   		padding: 6px 12px;
-    	border: 1px solid #ddd;
-    	border-radius: 5px;
-    	background-color: #f5f5f5;
-    	font-size: 14px;
-    	cursor: pointer;
-	}
-
-	a:hover {
-		background-color: #ddd;
-	}
-</style>
 </head>
 <body>
 	<!-- 게시판 목록  -->
@@ -851,8 +780,13 @@ $('#form-submit').submit(function(event){
             dataType: "json", // 응답의 데이터 타입
 <script>
 ```
-이 부분을 보면 설명ㅎㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ
+serializeObject 의 함수는 form 태그 안에 있는 태그들의 name을 key로, value를 value 값으로 가져온다. 
 
+
+{ name: ..., value: ... } 형태로 가져와서  $.ajax로 해당 url: /board/writeReply 을 타고가 @PostMapping("/board/writeReply") 어노테이션을 만나게 되고 
+
+
+데이터는 JSON 파일 형태로 요청의 Content-Type은 application/json 형태로 요청하여 json형태로 받아 html을 구성한다.
 ## 작성 페이지
 ```HTML
 title 위 생략...
